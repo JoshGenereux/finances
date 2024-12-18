@@ -1,11 +1,11 @@
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { HomeHeader } from "../home-header";
+import SideBar from "../side-bar";
 
 export default defineComponent({
   name: "HomePage",
 
-  components: { HomeHeader },
+  components: { SideBar },
 
   props: {},
 
@@ -16,8 +16,7 @@ export default defineComponent({
   render() {
     return (
       <div class="home-page">
-        <HomeHeader />
-        <div>Inside Home Page</div>
+        <side-bar />
       </div>
     );
   },
@@ -28,5 +27,6 @@ export default defineComponent({
 .home-page {
   width: 100%;
   height: 100%;
+  background-color: #1a1f16;
 }
 </style>
