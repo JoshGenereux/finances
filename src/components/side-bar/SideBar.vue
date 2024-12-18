@@ -1,22 +1,28 @@
 <script lang="jsx">
 import { defineComponent } from "vue";
+import { NavButton } from "./components";
 
 export default defineComponent({
   name: "side-bar",
 
-  components: {},
+  components: { NavButton },
 
   props: {},
 
   setup(props) {
-    const appName = "App Name";
+    const appName = "Financer";
 
-    return { appName };
+    const buttonNames = ["home", "expenses", "money", "trips", "settings"];
+
+    return { appName, buttonNames };
   },
 
   render() {
     return (
       <div class="side-bar">
+        {this.buttonNames.map((button) => (
+          <nav-button title={button} />
+        ))}
         <div class="app-name">{this.appName}</div>
       </div>
     );
@@ -28,20 +34,20 @@ export default defineComponent({
 .side-bar {
   width: 20%;
   height: 100%;
-  background-color: #3d3d3d;
+  background-color: #2c2b2b;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   position: relative;
-  padding-left: 25px;
+  align-items: center;
 
   .app-name {
     width: auto;
     height: auto;
     color: white;
     position: absolute;
-    bottom: 20px;
-    left: 20px;
+    bottom: 35px;
+    font-size: 35px;
   }
 }
 </style>
