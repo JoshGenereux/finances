@@ -1,6 +1,6 @@
 <script lang="jsx">
 import { defineComponent } from "vue";
-import { HomeHeader } from "./components";
+import { HomeHeader } from "../home-header";
 
 export default defineComponent({
   name: "HomePage",
