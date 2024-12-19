@@ -16,7 +16,7 @@ export default defineComponent({
     const userName = userStore?.userName;
     const userProfilePic = userStore?.profilePic;
 
-    const buttonNames = ["home", "expenses", "money", "trips", "settings"];
+    const buttonNames = ["home", "expenses", "money", "upcoming", "settings"];
 
     return { appName, buttonNames, userName, userProfilePic };
   },

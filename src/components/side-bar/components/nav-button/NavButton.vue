@@ -17,7 +17,6 @@ export default defineComponent({
   },
 
   setup(props) {
-    console.log(props.title);
     return {};
   },
 
@@ -29,8 +28,8 @@ export default defineComponent({
 
 <style lang="css" scoped>
 .nav-button {
-  width: 80%;
-  height: 5%;
+  width: 90%;
+  height: 60px;
   background-color: transparent;
   color: white;
   font-size: 25px;
