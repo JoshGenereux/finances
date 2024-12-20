@@ -1,3 +1,4 @@
 import RecentExpenses from "./recent";
+import CurrentIncome from "./current";
 
-export { RecentExpenses };
+export { RecentExpenses, CurrentIncome };

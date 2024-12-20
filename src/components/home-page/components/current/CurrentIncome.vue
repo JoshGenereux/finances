@@ -2,7 +2,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "RecentExpenses",
+  name: "CurrentIncome",
 
   components: {},
 
@@ -14,8 +14,8 @@ export default defineComponent({
 
   render() {
     return (
-      <div class="recent-expenses">
-        <div>Recent Expenses</div>
+      <div class="current-income">
+        <div>current income</div>
       </div>
     );
   },
@@ -23,8 +23,8 @@ export default defineComponent({
 </script>
 
 <style lang="css" scoped>
-.recent-expenses {
-  width: 500px;
+.current-income {
+  width: 450px;
   height: 200px;
   border: 1px solid white;
   color: white;
