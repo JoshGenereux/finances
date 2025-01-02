@@ -1,4 +1,5 @@
 import RecentExpenses from "./recent";
-import CurrentIncome from "./current";
+import AccountBalance from "./account-balance";
+import Access from "./access";
 
-export { RecentExpenses, CurrentIncome };
+export { RecentExpenses, AccountBalance, Access };

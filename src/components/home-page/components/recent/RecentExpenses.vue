@@ -15,7 +15,7 @@ export default defineComponent({
   render() {
     return (
       <div class="recent-expenses">
-        <div>Recent Expenses</div>
+        <div class="header">Recent Expenses</div>
       </div>
     );
   },
@@ -24,9 +24,15 @@ export default defineComponent({
 
 <style lang="css" scoped>
 .recent-expenses {
-  width: 500px;
+  width: 550px;
   height: 200px;
   border: 1px solid white;
-  color: white;
+
+  .header {
+    height: 15%;
+    border-bottom: white 1px solid;
+    align-content: center;
+    color: white;
+  }
 }
 </style>

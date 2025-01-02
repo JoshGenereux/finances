@@ -1,12 +1,12 @@
 <script lang="jsx">
 import { defineComponent } from "vue";
 import SideBar from "../side-bar";
-import { CurrentIncome, RecentExpenses } from "./components";
+import { Access, AccountBalance, RecentExpenses } from "./components";
 
 export default defineComponent({
   name: "HomePage",
 
-  components: { SideBar, RecentExpenses, CurrentIncome },
+  components: { SideBar, RecentExpenses, AccountBalance, Access },
 
   props: {},
 
@@ -18,8 +18,9 @@ export default defineComponent({
     return (
       <div class="home-page">
         <side-bar />
-        <current-income />
+        <account-balance />
         <recent-expenses />
+        <Access />
       </div>
     );
   },
@@ -39,10 +40,16 @@ export default defineComponent({
     top: 100px;
   }
 
-  .current-income {
+  .account-balance {
     position: absolute;
     left: 325px;
     top: 100px;
+  }
+
+  .access {
+    position: absolute;
+    top: 400px;
+    left: 325px;
   }
 }
 </style>

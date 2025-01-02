@@ -44,7 +44,7 @@ export default defineComponent({
 
 <style lang="css" scoped>
 .side-bar {
-  width: 20%;
+  width: 285px;
   height: 100%;
   background-color: #2c2b2b;
   display: flex;
