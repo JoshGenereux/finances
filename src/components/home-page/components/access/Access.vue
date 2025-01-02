@@ -1,4 +1,5 @@
 <script lang="jsx">
+import { useModalStore } from "@/store/modal";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -7,11 +8,15 @@ export default defineComponent({
   props: {},
 
   setup() {
+    const modalStore = useModalStore();
+
     function handleIncome() {
+      modalStore.updateActivity();
       return console.log("income clicked");
     }
 
     function handleExpense() {
+      modalStore.updateActivity();
       return console.log("Expense clicked");
     }
     return { handleIncome, handleExpense };

@@ -1,26 +1,32 @@
 <script lang="jsx">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import SideBar from "../side-bar";
-import { Access, AccountBalance, RecentExpenses } from "./components";
+import { Access, AccountBalance, RecentExpenses, AddModal } from "./components";
+import { useModalStore } from "@/store/modal";
 
 export default defineComponent({
   name: "HomePage",
 
-  components: { SideBar, RecentExpenses, AccountBalance, Access },
+  components: { SideBar, RecentExpenses, AccountBalance, Access, AddModal },
 
   props: {},
 
   setup() {
-    return {};
+    const modalStore = useModalStore();
+    const openModal = computed(() => modalStore.isActive);
+
+    return { openModal };
   },
 
   render() {
+    const { openModal } = this;
     return (
       <div class="home-page">
         <side-bar />
         <account-balance />
         <recent-expenses />
         <Access />
+        {openModal && <add-modal />}
       </div>
     );
   },
