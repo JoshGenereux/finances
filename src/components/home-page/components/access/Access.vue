@@ -11,13 +11,13 @@ export default defineComponent({
     const modalStore = useModalStore();
 
     function handleIncome() {
+      modalStore.pickType("Income");
       modalStore.updateActivity();
-      return console.log("income clicked");
     }
 
     function handleExpense() {
+      modalStore.pickType("Expense");
       modalStore.updateActivity();
-      return console.log("Expense clicked");
     }
     return { handleIncome, handleExpense };
   },
