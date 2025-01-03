@@ -1,22 +1,40 @@
 <script lang="jsx">
 import { useModalStore } from "@/store/modal";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, reactive, ref } from "vue";
 
 export default defineComponent({
   name: "AddModal",
 
-  props: {},
+  props: {
+    name: {
+      type: String,
+      default: "",
+    },
+  },
 
   setup(props) {
-    const modalName = computed(() => {
-      return useModalStore().name;
+    const modalStore = useModalStore();
+    const currentDate = ref(new Date());
+    const modalName = computed(() => props.name || modalStore.name);
+
+    const formData = reactive({
+      name: "",
+      amount: 0,
+      note: "",
+      date: currentDate.value.toString(),
+      type: "",
     });
 
     function handleExit() {
-      return useModalStore().updateActivity();
+      return modalStore.updateActivity();
     }
 
-    return { modalName, handleExit };
+    function handleSubmit(e) {
+      e.preventDefault();
+      console.log(formData);
+    }
+
+    return { modalName, handleExit, handleSubmit, formData };
   },
 
   render() {
@@ -24,7 +42,54 @@ export default defineComponent({
       <div class="add-modal">
         <div class="modal-background" onClick={this.handleExit}></div>
         <div class="modal-container">
-          <div class="name">Add {this.modalName}</div>
+          <div class="name">New {this.modalName}</div>
+
+          <form class="modal-form" onSubmit={this.handleSubmit}>
+            <div class="form-input">
+              <div class="input-name">name</div>
+              <input
+                class="input"
+                type="text"
+                placeHolder="Enter Name"
+                v-model={this.formData.name}
+              ></input>
+            </div>
+            <div class="form-input">
+              <div class="input-name">amount</div>
+              <input
+                class="input"
+                type="number"
+                placeHolder="$0"
+                v-model={this.formData.amount}
+              ></input>
+            </div>
+            <div class="form-input">
+              <div class="input-name">Note</div>
+              <input
+                class="input"
+                type="text"
+                placeHolder="Enter Note"
+                v-model={this.formData.note}
+              ></input>
+            </div>
+            <div class="form-input">
+              <div class="input-name">Date: </div>
+              <div class="input-name">{this.formData.date}</div>
+            </div>
+            <div class="form-input">
+              <div class="input-name">Type</div>
+              <select>
+                <option value="" disabled>
+                  Select Type
+                </option>
+                <option value="salary">Salary</option>
+                <option value="Freelance">Freelance</option>
+                <option value="Investment">Investment</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <button>Submit</button>
+          </form>
         </div>
       </div>
     );
@@ -58,6 +123,8 @@ export default defineComponent({
     height: 50%;
     border: white 2px solid;
     z-index: 150;
+    display: flex;
+    flex-direction: column;
   }
 
   .name {
@@ -67,6 +134,21 @@ export default defineComponent({
     color: white;
     padding-left: 5px;
     align-content: center;
+  }
+
+  .modal-form {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+
+    .form-input {
+      display: flex;
+
+      .input-name {
+        color: white;
+      }
+    }
   }
 }
 </style>

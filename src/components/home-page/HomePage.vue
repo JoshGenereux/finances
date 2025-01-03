@@ -15,7 +15,7 @@ export default defineComponent({
     const modalStore = useModalStore();
     const openModal = computed(() => modalStore.isActive);
 
-    return { openModal };
+    return { openModal, modalStore };
   },
 
   render() {
@@ -26,7 +26,7 @@ export default defineComponent({
         <account-balance />
         <recent-expenses />
         <Access />
-        {openModal && <add-modal />}
+        {openModal && <add-modal name={this.modalStore.name} />}
       </div>
     );
   },
