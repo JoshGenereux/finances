@@ -35,6 +35,13 @@ export default defineComponent({
     function handleSubmit(e) {
       e.preventDefault();
       console.log(formData);
+      balanceStore.setCurrentTransaction(
+        formData.name,
+        formData.amount,
+        formData.type,
+        formData.note,
+        formData.date
+      );
       console.log(balanceStore);
     }
 
