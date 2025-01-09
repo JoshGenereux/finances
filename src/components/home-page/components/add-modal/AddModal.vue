@@ -1,4 +1,5 @@
 <script lang="jsx">
+import { useBalanceStore } from "@/store/balance";
 import { useModalStore } from "@/store/modal";
 import { computed, defineComponent, reactive, ref } from "vue";
 
@@ -14,6 +15,8 @@ export default defineComponent({
 
   setup(props) {
     const modalStore = useModalStore();
+    const balanceStore = useBalanceStore();
+
     const currentDate = ref(new Date());
     const modalName = computed(() => props.name || modalStore.name);
 
@@ -32,6 +35,7 @@ export default defineComponent({
     function handleSubmit(e) {
       e.preventDefault();
       console.log(formData);
+      console.log(balanceStore);
     }
 
     return { modalName, handleExit, handleSubmit, formData };

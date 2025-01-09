@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 
 interface Transaction {
-  id: string;
+  name: string;
   timeStamp: string;
-  type: "add" | "sub";
+  type: string;
   amount: number;
-  description?: string;
+  note?: string;
   balanceAfter: number;
 }
 
@@ -13,16 +13,30 @@ export const useBalanceStore = defineStore("balance", {
   state: () => ({
     accountBalance: 0,
     balanceHistory: [] as Transaction[],
+    currentTransaction: {
+      name: "",
+      timeStamp: "",
+      type: "",
+      amount: 0,
+      note: "",
+      balanceAfter: 0,
+    } as Transaction,
   }),
   actions: {
-    updateBalance(amount: number, description: string = "", type: string) {
+    updateBalance(
+      amount: number,
+      note: string = "",
+      type: string,
+      timeStamp: string,
+      name: string
+    ) {
       this.accountBalance += amount;
       this.balanceHistory.push({
-        id: "test",
-        timeStamp: "today",
-        type: "add",
+        name,
+        timeStamp,
+        type,
         amount,
-        description,
+        note,
         balanceAfter: this.accountBalance,
       });
     },
