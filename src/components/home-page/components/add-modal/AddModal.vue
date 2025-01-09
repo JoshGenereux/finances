@@ -42,7 +42,10 @@ export default defineComponent({
         formData.note,
         formData.date
       );
-      console.log(balanceStore);
+      balanceStore.pushToHistory();
+      balanceStore.resetTransaction();
+      console.log(balanceStore.balanceHistory);
+      console.log(balanceStore.$state.accountBalance);
     }
 
     return { modalName, handleExit, handleSubmit, formData };

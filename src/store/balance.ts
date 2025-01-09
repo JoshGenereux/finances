@@ -41,6 +41,23 @@ export const useBalanceStore = defineStore("balance", {
         note,
         balanceAfter,
       };
+
+      this.accountBalance += amount;
+    },
+
+    pushToHistory() {
+      this.balanceHistory.push(this.currentTransaction);
+    },
+
+    resetTransaction() {
+      this.currentTransaction = {
+        name: "",
+        timeStamp: "",
+        type: "",
+        amount: 0,
+        note: "",
+        balanceAfter: 0,
+      };
     },
   },
 });
