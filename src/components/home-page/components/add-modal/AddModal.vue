@@ -44,8 +44,7 @@ export default defineComponent({
       );
       balanceStore.pushToHistory();
       balanceStore.resetTransaction();
-      console.log(balanceStore.balanceHistory);
-      console.log(balanceStore.$state.accountBalance);
+      modalStore.updateActivity();
     }
 
     return { modalName, handleExit, handleSubmit, formData };

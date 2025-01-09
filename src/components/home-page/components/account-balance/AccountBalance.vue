@@ -1,6 +1,6 @@
 <script lang="jsx">
 import { useBalanceStore } from "@/store/balance";
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   name: "AccountBalance",
@@ -10,16 +10,19 @@ export default defineComponent({
   props: {},
 
   setup() {
-    const incomeStore = useBalanceStore();
+    const balanceStore = useBalanceStore();
+    const currentBalance = computed(() => balanceStore.accountBalance);
 
-    return { incomeStore };
+    console.log(balanceStore.accountBalance);
+
+    return { currentBalance };
   },
 
   render() {
     return (
       <div class="account-balance">
         <div class="header">Account Balance</div>
-        <div class="balance"></div>
+        <div class="balance">{this.currentBalance}</div>
       </div>
     );
   },
