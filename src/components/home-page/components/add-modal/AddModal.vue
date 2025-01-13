@@ -28,26 +28,49 @@ export default defineComponent({
       type: "",
     });
 
+    const errors = reactive({
+      name: "",
+      amount: "",
+      type: "",
+    });
+
     function handleExit() {
       return modalStore.updateActivity();
     }
 
     function handleSubmit(e) {
       e.preventDefault();
-      console.log(formData);
-      balanceStore.setCurrentTransaction(
-        formData.name,
-        formData.amount,
-        formData.type,
-        formData.note,
-        formData.date
-      );
-      balanceStore.pushToHistory();
-      balanceStore.resetTransaction();
-      modalStore.updateActivity();
+      clearErrors();
+
+      let isValid = true;
+
+      if (!formData.name.trim()) {
+        errors.name = "Name is required.";
+        console.log(errors.name);
+        isValid = false;
+      }
+
+      if (isValid) {
+        balanceStore.setCurrentTransaction(
+          formData.name,
+          formData.amount,
+          formData.type,
+          formData.note,
+          formData.date
+        );
+        balanceStore.pushToHistory();
+        balanceStore.resetTransaction();
+        modalStore.updateActivity();
+      }
     }
 
-    return { modalName, handleExit, handleSubmit, formData };
+    function clearErrors() {
+      errors.name = "";
+      errors.amount = "";
+      errors.type = "";
+    }
+
+    return { modalName, handleExit, handleSubmit, formData, errors };
   },
 
   render() {
@@ -59,7 +82,7 @@ export default defineComponent({
 
           <form class="modal-form" onSubmit={this.handleSubmit}>
             <div class="form-input">
-              <div class="input-name">name</div>
+              <div class="input-name">name:</div>
               <input
                 class="input"
                 type="text"
@@ -68,26 +91,13 @@ export default defineComponent({
               ></input>
             </div>
             <div class="form-input">
-              <div class="input-name">amount</div>
+              <div class="input-name">amount:</div>
               <input
                 class="input"
                 type="number"
-                placeHolder="$0"
+                placeHolder="0"
                 v-model={this.formData.amount}
               ></input>
-            </div>
-            <div class="form-input">
-              <div class="input-name">Note</div>
-              <input
-                class="input"
-                type="text"
-                placeHolder="Enter Note"
-                v-model={this.formData.note}
-              ></input>
-            </div>
-            <div class="form-input">
-              <div class="input-name">Date: </div>
-              <div class="input-name">{this.formData.date}</div>
             </div>
             <div class="form-input">
               <div class="input-name">Type</div>
@@ -101,7 +111,21 @@ export default defineComponent({
                 <option value="Other">Other</option>
               </select>
             </div>
-            <button>Submit</button>
+            <div class="form-input">
+              <div class="input-name">Note</div>
+              <textarea
+                class="input"
+                placeholder="Enter Note"
+                v-model={this.formData.note}
+                rows="6"
+                cols="60"
+              ></textarea>
+            </div>
+
+            <div class="submit-box">
+              <div class="input-date">{this.formData.date}</div>
+              <button class="submit">Submit</button>
+            </div>
           </form>
         </div>
       </div>
@@ -151,15 +175,37 @@ export default defineComponent({
 
   .modal-form {
     width: 100%;
-    height: 90%;
+    height: 95%;
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
+    position: relative;
+    padding: 10px 10px;
 
     .form-input {
       display: flex;
 
       .input-name {
         color: white;
+        width: 100px;
+      }
+    }
+
+    .submit-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 20%;
+
+      .submit {
+        width: 20%;
+        height: 30%;
+      }
+
+      .input-date {
+        color: white;
+        text-align: center;
+        width: 160px;
       }
     }
   }
