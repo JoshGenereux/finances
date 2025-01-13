@@ -19,6 +19,8 @@ export default defineComponent({
 
     const currentDate = ref(new Date());
     const modalName = computed(() => props.name || modalStore.name);
+    const isIncome = computed(() => modalName.value === "Income");
+    const isExpense = computed(() => modalName.value === "Expense");
 
     const formData = reactive({
       name: "",
@@ -61,6 +63,7 @@ export default defineComponent({
         balanceStore.pushToHistory();
         balanceStore.resetTransaction();
         modalStore.updateActivity();
+        console.log(balanceStore);
       }
     }
 
@@ -70,24 +73,42 @@ export default defineComponent({
       errors.type = "";
     }
 
-    return { modalName, handleExit, handleSubmit, formData, errors };
+    return {
+      modalName,
+      handleExit,
+      handleSubmit,
+      formData,
+      errors,
+      isIncome,
+      isExpense,
+    };
   },
 
   render() {
+    const {
+      modalName,
+      handleExit,
+      handleSubmit,
+      formData,
+      errors,
+      isIncome,
+      isExpense,
+    } = this;
+
     return (
       <div class="add-modal">
-        <div class="modal-background" onClick={this.handleExit}></div>
+        <div class="modal-background" onClick={handleExit}></div>
         <div class="modal-container">
-          <div class="name">New {this.modalName}</div>
+          <div class="name">New {modalName}</div>
 
-          <form class="modal-form" onSubmit={this.handleSubmit}>
+          <form class="modal-form" onSubmit={handleSubmit}>
             <div class="form-input">
               <div class="input-name">name:</div>
               <input
                 class="input"
                 type="text"
                 placeHolder="Enter Name"
-                v-model={this.formData.name}
+                v-model={formData.name}
               ></input>
             </div>
             <div class="form-input">
@@ -96,20 +117,33 @@ export default defineComponent({
                 class="input"
                 type="number"
                 placeHolder="0"
-                v-model={this.formData.amount}
+                v-model={formData.amount}
               ></input>
             </div>
             <div class="form-input">
               <div class="input-name">Type</div>
-              <select>
-                <option value="" disabled>
-                  Select Type
-                </option>
-                <option value="salary">Salary</option>
-                <option value="Freelance">Freelance</option>
-                <option value="Investment">Investment</option>
-                <option value="Other">Other</option>
-              </select>
+              {isIncome && (
+                <select>
+                  <option value="" disabled>
+                    Select Type
+                  </option>
+                  <option value="salary">Salary</option>
+                  <option value="freelance">Freelance</option>
+                  <option value="investment">Investment</option>
+                  <option value="other">Other</option>
+                </select>
+              )}
+              {isExpense && (
+                <select>
+                  <option value="" disabled>
+                    Select Type
+                  </option>
+                  <option value="credit">Credit</option>
+                  <option value="debit">Debit</option>
+                  <option value="withdrawl">Withdrawl</option>
+                  <option value="other">Other</option>
+                </select>
+              )}
             </div>
             <div class="form-input">
               <div class="input-name">Note</div>
@@ -123,7 +157,7 @@ export default defineComponent({
             </div>
 
             <div class="submit-box">
-              <div class="input-date">{this.formData.date}</div>
+              <div class="input-date">{formData.date}</div>
               <button class="submit">Submit</button>
             </div>
           </form>
