@@ -6,7 +6,6 @@ interface Transaction {
   type: string;
   amount: number;
   note?: string;
-  balanceAfter: number;
 }
 
 export const useBalanceStore = defineStore("balance", {
@@ -19,7 +18,6 @@ export const useBalanceStore = defineStore("balance", {
       type: "",
       amount: 0,
       note: "",
-      balanceAfter: 0,
     } as Transaction,
   }),
 
@@ -31,7 +29,7 @@ export const useBalanceStore = defineStore("balance", {
       note: string,
       timeStamp: string
     ) {
-      const balanceAfter = this.accountBalance + amount;
+      let balanceAdjustment = amount;
 
       this.currentTransaction = {
         name,
@@ -39,10 +37,9 @@ export const useBalanceStore = defineStore("balance", {
         type,
         amount,
         note,
-        balanceAfter,
       };
 
-      this.accountBalance += amount;
+      this.accountBalance += balanceAdjustment;
     },
 
     addToHistory() {
@@ -56,7 +53,6 @@ export const useBalanceStore = defineStore("balance", {
         type: "",
         amount: 0,
         note: "",
-        balanceAfter: 0,
       };
     },
   },

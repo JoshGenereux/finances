@@ -20,9 +20,7 @@ export default defineComponent({
 
     const currentDate = ref(new Date());
     const modalName = computed(() => props.name || modalStore.name);
-    const isIncome = computed(() =>
-      modalName.value === "Income" ? "Income" : "Expense"
-    );
+    const isIncome = computed(() => modalName.value === "Income");
 
     const formData = reactive({
       name: "",
@@ -41,7 +39,7 @@ export default defineComponent({
     function handleSubmit(e) {
       e.preventDefault();
 
-      const validData = validate(formData);
+      const validData = validate(formData, isIncome.value);
       const isValid = validData.isValid;
 
       if (isValid) {
@@ -56,6 +54,7 @@ export default defineComponent({
         balanceStore.resetTransaction();
         modalStore.updateActivity();
         errors.value = {};
+        console.log(formData);
         console.log(balanceStore.balanceHistory);
       } else {
         errors.value = { ...validData.errors };
@@ -87,8 +86,6 @@ export default defineComponent({
       errors,
       hasErrors,
     } = this;
-
-    console.log(hasErrors);
 
     return (
       <div class="add-modal">
@@ -122,6 +119,7 @@ export default defineComponent({
                 <input
                   class="input"
                   type="number"
+                  step=".01"
                   placeHolder="0"
                   v-model={formData.amount}
                 ></input>

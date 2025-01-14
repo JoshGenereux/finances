@@ -1,6 +1,4 @@
-import { reactive } from "vue";
-
-export function validate(data: Object) {
+export function validate(data: Object, isIncome: Boolean) {
   const validated = {
     isValid: true,
     errors: {
@@ -16,9 +14,12 @@ export function validate(data: Object) {
   if (!amount) {
     validated.isValid = false;
     validated.errors.amountErrors.push("Amount needs to be added");
-  } else if (amount < 1) {
+  } else if (amount < 1 && isIncome) {
     validated.isValid = false;
     validated.errors.amountErrors.push("Amount needs to be a positive number");
+  } else if (amount >= 0 && !isIncome) {
+    validated.isValid = false;
+    validated.errors.amountErrors.push("Amount needs to be a negative number");
   }
 
   if (!name.trim()) {

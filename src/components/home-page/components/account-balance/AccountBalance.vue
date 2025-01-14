@@ -58,7 +58,7 @@ export default defineComponent({
         <ul class="balance-history">
           {balanceHistory.map((b, i) => (
             <li class="balance-history__line" key={`amount-${i}`}>
-              {b.amount}
+              $ {b.amount}
             </li>
           ))}
         </ul>
