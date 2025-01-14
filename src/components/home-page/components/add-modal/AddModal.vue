@@ -20,8 +20,9 @@ export default defineComponent({
 
     const currentDate = ref(new Date());
     const modalName = computed(() => props.name || modalStore.name);
-    const isIncome = computed(() => modalName.value === "Income");
-    const isExpense = computed(() => modalName.value === "Expense");
+    const isIncome = computed(() =>
+      modalName.value === "Income" ? "Income" : "Expense"
+    );
 
     const formData = reactive({
       name: "",
@@ -31,27 +32,17 @@ export default defineComponent({
       type: "",
     });
 
-    const errors = reactive({
-      name: "",
-      amount: "",
-      type: "",
-    });
-
     function handleExit() {
       return modalStore.updateActivity();
     }
 
+    let errors = ref({});
+
     function handleSubmit(e) {
       e.preventDefault();
-      clearErrors();
 
-      let isValid = validate(formData);
-
-      // if (!formData.name.trim()) {
-      //   errors.name = "Name is required.";
-      //   console.log(errors.name);
-      //   isValid = false;
-      // }
+      const validData = validate(formData);
+      const isValid = validData.isValid;
 
       if (isValid) {
         balanceStore.setCurrentTransaction(
@@ -64,24 +55,25 @@ export default defineComponent({
         balanceStore.addToHistory();
         balanceStore.resetTransaction();
         modalStore.updateActivity();
+        errors.value = {};
         console.log(balanceStore.balanceHistory);
+      } else {
+        errors.value = { ...validData.errors };
       }
     }
 
-    function clearErrors() {
-      errors.name = "";
-      errors.amount = "";
-      errors.type = "";
-    }
+    const hasErrors = computed(() => {
+      return Object.values(errors.value).some((error) => error.length > 0);
+    });
 
     return {
       modalName,
       handleExit,
       handleSubmit,
       formData,
-      errors,
       isIncome,
-      isExpense,
+      errors,
+      hasErrors,
     };
   },
 
@@ -91,10 +83,12 @@ export default defineComponent({
       handleExit,
       handleSubmit,
       formData,
-      errors,
       isIncome,
-      isExpense,
+      errors,
+      hasErrors,
     } = this;
+
+    console.log(hasErrors);
 
     return (
       <div class="add-modal">
@@ -103,58 +97,89 @@ export default defineComponent({
           <div class="name">New {modalName}</div>
 
           <form class="modal-form" onSubmit={handleSubmit}>
-            <div class="form-input">
-              <div class="input-name">name:</div>
-              <input
-                class="input"
-                type="text"
-                placeHolder="Enter Name"
-                v-model={formData.name}
-              ></input>
-            </div>
-            <div class="form-input">
-              <div class="input-name">amount:</div>
-              <input
-                class="input"
-                type="number"
-                placeHolder="0"
-                v-model={formData.amount}
-              ></input>
-            </div>
-            <div class="form-input">
-              <div class="input-name">Type</div>
-              {isIncome && (
-                <select v-model={formData.type}>
-                  <option value="" disabled>
-                    Select Type
-                  </option>
-                  <option value="salary">Salary</option>
-                  <option value="freelance">Freelance</option>
-                  <option value="investment">Investment</option>
-                  <option value="other">Other</option>
-                </select>
-              )}
-              {isExpense && (
-                <select v-model={formData.type}>
-                  <option value="" disabled>
-                    Select Type
-                  </option>
-                  <option value="credit">Credit</option>
-                  <option value="debit">Debit</option>
-                  <option value="withdrawl">Withdrawl</option>
-                  <option value="other">Other</option>
-                </select>
+            <div class="form-section">
+              <div class="form-input">
+                <div class="input-name">Name:</div>
+                <input
+                  class="input"
+                  type="text"
+                  placeHolder="Enter Name"
+                  v-model={formData.name}
+                ></input>
+              </div>
+              {hasErrors && (
+                <div class="errors">
+                  {errors?.nameErrors?.map((error) => (
+                    <div class="error">{error}</div>
+                  ))}
+                </div>
               )}
             </div>
-            <div class="form-input">
-              <div class="input-name">Note</div>
-              <textarea
-                class="input"
-                placeholder="Enter Note"
-                v-model={this.formData.note}
-                rows="6"
-                cols="60"
-              ></textarea>
+
+            <div class="form-section">
+              <div class="form-input">
+                <div class="input-name">Amount:</div>
+                <input
+                  class="input"
+                  type="number"
+                  placeHolder="0"
+                  v-model={formData.amount}
+                ></input>
+              </div>
+              {hasErrors && (
+                <div class="errors">
+                  {errors?.amountErrors?.map((error) => (
+                    <div class="error">{error}</div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div class="form-section">
+              <div class="form-input">
+                <div class="input-name">Type</div>
+                {isIncome ? (
+                  <select v-model={formData.type}>
+                    <option value="" disabled>
+                      Select Type
+                    </option>
+                    <option value="salary">Salary</option>
+                    <option value="freelance">Freelance</option>
+                    <option value="investment">Investment</option>
+                    <option value="other">Other</option>
+                  </select>
+                ) : (
+                  <select v-model={formData.type}>
+                    <option value="" disabled>
+                      Select Type
+                    </option>
+                    <option value="credit">Credit</option>
+                    <option value="debit">Debit</option>
+                    <option value="withdrawl">Withdrawl</option>
+                    <option value="other">Other</option>
+                  </select>
+                )}
+              </div>
+              {hasErrors && (
+                <div class="errors">
+                  {errors?.typeErrors?.map((error) => (
+                    <div class="error">{error}</div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div class="form-section">
+              <div class="form-input">
+                <div class="input-name">Note</div>
+                <textarea
+                  class="input"
+                  placeholder="Enter Note"
+                  v-model={this.formData.note}
+                  rows="2"
+                  cols="60"
+                ></textarea>
+              </div>
             </div>
 
             <div class="submit-box">
@@ -217,15 +242,6 @@ export default defineComponent({
     position: relative;
     padding: 10px 10px;
 
-    .form-input {
-      display: flex;
-
-      .input-name {
-        color: white;
-        width: 100px;
-      }
-    }
-
     .submit-box {
       display: flex;
       flex-direction: column;
@@ -241,6 +257,26 @@ export default defineComponent({
         color: white;
         text-align: center;
         width: 160px;
+      }
+    }
+  }
+
+  .form-section {
+    width: 100%;
+    height: 15%;
+
+    .form-input {
+      display: flex;
+
+      .input-name {
+        color: white;
+        width: 100px;
+      }
+    }
+
+    .errors {
+      .error {
+        color: red;
       }
     }
   }
