@@ -2,6 +2,7 @@
 import { useBalanceStore } from "@/store/balance";
 import { useModalStore } from "@/store/modal";
 import { computed, defineComponent, reactive, ref } from "vue";
+import { validate } from "./validation";
 
 export default defineComponent({
   name: "AddModal",
@@ -44,13 +45,13 @@ export default defineComponent({
       e.preventDefault();
       clearErrors();
 
-      let isValid = true;
+      let isValid = validate(formData);
 
-      if (!formData.name.trim()) {
-        errors.name = "Name is required.";
-        console.log(errors.name);
-        isValid = false;
-      }
+      // if (!formData.name.trim()) {
+      //   errors.name = "Name is required.";
+      //   console.log(errors.name);
+      //   isValid = false;
+      // }
 
       if (isValid) {
         balanceStore.setCurrentTransaction(
