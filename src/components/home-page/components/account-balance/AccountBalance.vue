@@ -14,15 +14,39 @@ export default defineComponent({
     const currentBalance = computed(() => balanceStore.accountBalance);
     const balanceHistory = computed(() => balanceStore.balanceHistory);
 
-    console.log(balanceStore.accountBalance);
-
     return { currentBalance, balanceHistory };
   },
 
   render() {
+    const { currentBalance, balanceHistory } = this;
+    const header = (
+      <div class="header">
+        <div class="header__title">Account Balance:</div>
+        <div class="header__amount">{currentBalance}</div>
+      </div>
+    );
+
+    const nameColumn = (
+      <div class="name-column">
+        <div></div>
+      </div>
+    );
+
+    const typeColumn = (
+      <div class="type-column">
+        <div></div>
+      </div>
+    );
+
+    const amountColumn = (
+      <div class="amount-column">
+        <div></div>
+      </div>
+    );
+
     return (
       <div class="account-balance">
-        <div class="header">Account Balance History</div>
+        {header}
         <div class="balances-container">
           <ul class="balance-history">
             {this.balanceHistory.map((entry, index) => (
@@ -40,7 +64,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .account-balance {
   width: 450px;
   height: 200px;
@@ -50,15 +74,23 @@ export default defineComponent({
   .header {
     width: 100%;
     height: 15%;
-    align-content: center;
-    color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid white;
+    color: white;
+
+    &__amount {
+      color: lightgreen;
+    }
   }
 
   .balances-container {
     width: 100%;
     height: 85%;
-    padding: 10px 10px;
+    padding: 5% 5%;
 
     .balance-history {
       list-style-type: none;
@@ -70,6 +102,21 @@ export default defineComponent({
         color: white;
       }
     }
+  }
+
+  .name-column {
+    width: 30%;
+    height: 100%;
+  }
+
+  .type-column {
+    width: 30%;
+    height: 100%;
+  }
+
+  .amount-column {
+    width: 30%;
+    height: 100%;
   }
 }
 </style>

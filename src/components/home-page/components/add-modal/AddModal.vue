@@ -60,10 +60,10 @@ export default defineComponent({
           formData.note,
           formData.date
         );
-        balanceStore.pushToHistory();
+        balanceStore.addToHistory();
         balanceStore.resetTransaction();
         modalStore.updateActivity();
-        console.log(balanceStore);
+        console.log(balanceStore.balanceHistory);
       }
     }
 
@@ -123,7 +123,7 @@ export default defineComponent({
             <div class="form-input">
               <div class="input-name">Type</div>
               {isIncome && (
-                <select>
+                <select v-model={formData.type}>
                   <option value="" disabled>
                     Select Type
                   </option>
@@ -134,7 +134,7 @@ export default defineComponent({
                 </select>
               )}
               {isExpense && (
-                <select>
+                <select v-model={formData.type}>
                   <option value="" disabled>
                     Select Type
                   </option>

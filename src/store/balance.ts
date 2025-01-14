@@ -45,8 +45,8 @@ export const useBalanceStore = defineStore("balance", {
       this.accountBalance += amount;
     },
 
-    pushToHistory() {
-      this.balanceHistory.push(this.currentTransaction);
+    addToHistory() {
+      this.balanceHistory.unshift(this.currentTransaction);
     },
 
     resetTransaction() {
