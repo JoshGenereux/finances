@@ -158,7 +158,7 @@ export default defineComponent({
 
             <div class="submit-box">
               <div class="input-date">{formData.date}</div>
-              <button class="submit">Submit</button>
+              <button class="submit">Add {modalName}</button>
             </div>
           </form>
         </div>

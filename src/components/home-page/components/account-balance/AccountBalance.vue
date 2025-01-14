@@ -28,19 +28,40 @@ export default defineComponent({
 
     const nameColumn = (
       <div class="name-column">
-        <div></div>
+        <div class="column-header">Name:</div>
+        <ul class="balance-history">
+          {balanceHistory.map((b, i) => (
+            <li class="balance-history__line" key={`name-${i}`}>
+              {b.name}
+            </li>
+          ))}
+        </ul>
       </div>
     );
 
     const typeColumn = (
       <div class="type-column">
-        <div></div>
+        <div class="column-header">Type:</div>
+        <ul class="balance-history">
+          {balanceHistory.map((b, i) => (
+            <li class="balance-history__line" key={`type-${i}`}>
+              {b.type}
+            </li>
+          ))}
+        </ul>
       </div>
     );
 
     const amountColumn = (
       <div class="amount-column">
-        <div></div>
+        <div class="column-header">Amount:</div>
+        <ul class="balance-history">
+          {balanceHistory.map((b, i) => (
+            <li class="balance-history__line" key={`amount-${i}`}>
+              {b.amount}
+            </li>
+          ))}
+        </ul>
       </div>
     );
 
@@ -48,15 +69,9 @@ export default defineComponent({
       <div class="account-balance">
         {header}
         <div class="balances-container">
-          <ul class="balance-history">
-            {this.balanceHistory.map((entry, index) => (
-              <li key="index" class="balance-line">
-                <div class="name">{entry.name}</div>
-                <div class="type">{entry.type}</div>
-                <div class="amount">{entry.amount}</div>
-              </li>
-            ))}
-          </ul>
+          {nameColumn}
+          {typeColumn}
+          {amountColumn}
         </div>
       </div>
     );
@@ -90,33 +105,32 @@ export default defineComponent({
   .balances-container {
     width: 100%;
     height: 85%;
-    padding: 5% 5%;
-
-    .balance-history {
-      list-style-type: none;
-      padding: 0;
-
-      .balance-line {
-        display: flex;
-        justify-content: space-around;
-        color: white;
-      }
-    }
+    display: flex;
+    justify-content: center;
   }
 
-  .name-column {
-    width: 30%;
-    height: 100%;
-  }
-
-  .type-column {
-    width: 30%;
-    height: 100%;
-  }
-
+  .name-column,
+  .type-column,
   .amount-column {
     width: 30%;
+    height: fit-content;
+  }
+
+  .column-header {
+    width: 100%;
+    height: auto;
+    color: white;
+  }
+
+  .balance-history {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
     height: 100%;
+
+    &__line {
+      color: white;
+    }
   }
 }
 </style>
