@@ -14,15 +14,25 @@ export default defineComponent({
     const currentBalance = computed(() => balanceStore.accountBalance);
     const balanceHistory = computed(() => balanceStore.balanceHistory);
 
-    return { currentBalance, balanceHistory };
+    const showNegativeBalance = computed(() =>
+      currentBalance.value < 0 ? "negative" : "positive"
+    );
+
+    return { currentBalance, balanceHistory, showNegativeBalance };
   },
 
   render() {
+    function negativeTransaction(num) {
+      return num < 0 ? "negative" : "positive";
+    }
+
     const { currentBalance, balanceHistory } = this;
     const header = (
       <div class="header">
         <div class="header__title">Account Balance:</div>
-        <div class="header__amount">{currentBalance}</div>
+        <div class={["header__amount", `${this.showNegativeBalance}`]}>
+          {currentBalance}
+        </div>
       </div>
     );
 
@@ -58,12 +68,17 @@ export default defineComponent({
         <ul class="balance-history">
           {balanceHistory.map((b, i) => (
             <li class="balance-history__line" key={`amount-${i}`}>
-              $ {b.amount}
+              $ &nbsp;
+              <div class={`amount-${negativeTransaction(b.amount)}`}>
+                {b.amount}
+              </div>
             </li>
           ))}
         </ul>
       </div>
     );
+
+    console.log(balanceHistory);
 
     return (
       <div class="account-balance">
@@ -98,7 +113,12 @@ export default defineComponent({
     color: white;
 
     &__amount {
-      color: lightgreen;
+      &.positive {
+        color: lightgreen;
+      }
+      &.negative {
+        color: red;
+      }
     }
   }
 
@@ -131,6 +151,14 @@ export default defineComponent({
 
     &__line {
       color: white;
+      display: flex;
+
+      .amount-negative {
+        color: red;
+      }
+      .amount-positive {
+        color: lightgreen;
+      }
     }
   }
 }

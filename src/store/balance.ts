@@ -29,24 +29,20 @@ export const useBalanceStore = defineStore("balance", {
       type: string,
       note: string,
       timeStamp: string,
-      transactionType: string
+      transactionType: "income" | "expense"
     ) {
-      let balanceAdjustment = amount;
+      const adjustedAmount = transactionType === "expense" ? -amount : amount;
 
       this.currentTransaction = {
         name,
         timeStamp,
         type,
-        amount,
+        amount: adjustedAmount,
         note,
         transactionType,
       };
 
-      if (transactionType === "expense") {
-        this.accountBalance -= balanceAdjustment;
-      } else {
-        this.accountBalance += balanceAdjustment;
-      }
+      this.accountBalance += adjustedAmount;
     },
 
     addToHistory() {
