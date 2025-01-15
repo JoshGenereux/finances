@@ -56,7 +56,6 @@ export default defineComponent({
           formData.transactionType
         );
         balanceStore.addToHistory();
-        console.log(balanceStore);
         balanceStore.resetTransaction();
         modalStore.updateActivity();
         errors.value = {};
