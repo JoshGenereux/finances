@@ -21,6 +21,9 @@ export default defineComponent({
     const currentDate = ref(new Date());
     const modalName = computed(() => props.name || modalStore.name);
     const isIncome = computed(() => modalName.value === "Income");
+    const transactionType = computed(() =>
+      isIncome.value ? "income" : "expense"
+    );
 
     const formData = reactive({
       name: "",
@@ -28,6 +31,7 @@ export default defineComponent({
       note: "",
       date: currentDate.value.toString(),
       type: "",
+      transactionType,
     });
 
     function handleExit() {
@@ -48,14 +52,14 @@ export default defineComponent({
           formData.amount,
           formData.type,
           formData.note,
-          formData.date
+          formData.date,
+          formData.transactionType
         );
         balanceStore.addToHistory();
+        console.log(balanceStore);
         balanceStore.resetTransaction();
         modalStore.updateActivity();
         errors.value = {};
-        console.log(formData);
-        console.log(balanceStore.balanceHistory);
       } else {
         errors.value = { ...validData.errors };
       }

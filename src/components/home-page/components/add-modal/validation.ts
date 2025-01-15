@@ -1,4 +1,4 @@
-export function validate(data: Object, isIncome: Boolean) {
+export function validate(data: Object) {
   const validated = {
     isValid: true,
     errors: {
@@ -14,12 +14,9 @@ export function validate(data: Object, isIncome: Boolean) {
   if (!amount) {
     validated.isValid = false;
     validated.errors.amountErrors.push("Amount needs to be added");
-  } else if (amount < 1 && isIncome) {
+  } else if (amount < 1) {
     validated.isValid = false;
     validated.errors.amountErrors.push("Amount needs to be a positive number");
-  } else if (amount >= 0 && !isIncome) {
-    validated.isValid = false;
-    validated.errors.amountErrors.push("Amount needs to be a negative number");
   }
 
   if (!name.trim()) {

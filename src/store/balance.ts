@@ -6,6 +6,7 @@ interface Transaction {
   type: string;
   amount: number;
   note?: string;
+  transactionType: string;
 }
 
 export const useBalanceStore = defineStore("balance", {
@@ -27,7 +28,8 @@ export const useBalanceStore = defineStore("balance", {
       amount: number,
       type: string,
       note: string,
-      timeStamp: string
+      timeStamp: string,
+      transactionType: string
     ) {
       let balanceAdjustment = amount;
 
@@ -37,9 +39,14 @@ export const useBalanceStore = defineStore("balance", {
         type,
         amount,
         note,
+        transactionType,
       };
 
-      this.accountBalance += balanceAdjustment;
+      if (transactionType === "expense") {
+        this.accountBalance -= balanceAdjustment;
+      } else {
+        this.accountBalance += balanceAdjustment;
+      }
     },
 
     addToHistory() {
@@ -53,6 +60,7 @@ export const useBalanceStore = defineStore("balance", {
         type: "",
         amount: 0,
         note: "",
+        transactionType: "",
       };
     },
   },

@@ -107,6 +107,7 @@ export default defineComponent({
     height: 85%;
     display: flex;
     justify-content: center;
+    overflow: hidden;
   }
 
   .name-column,
