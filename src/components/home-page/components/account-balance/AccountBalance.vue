@@ -27,6 +27,7 @@ export default defineComponent({
     }
 
     const { currentBalance, balanceHistory } = this;
+
     const header = (
       <div class="header">
         <div class="header__title">Account Balance:</div>
@@ -36,58 +37,36 @@ export default defineComponent({
       </div>
     );
 
-    const nameColumn = (
-      <div class="name-column">
-        <div class="column-header">Name:</div>
-        <ul class="balance-history">
-          {balanceHistory.map((b, i) => (
-            <li class="balance-history__line" key={`name-${i}`}>
-              {b.name}
-            </li>
-          ))}
-        </ul>
+    const columnNames = (
+      <div class="column-names">
+        <div class="name">Name</div>
+        <div class="type">Type</div>
+        <div class="amount">Amount</div>
       </div>
     );
 
-    const typeColumn = (
-      <div class="type-column">
-        <div class="column-header">Type:</div>
-        <ul class="balance-history">
-          {balanceHistory.map((b, i) => (
-            <li class="balance-history__line" key={`type-${i}`}>
-              {b.type}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-
-    const amountColumn = (
-      <div class="amount-column">
-        <div class="column-header">Amount:</div>
-        <ul class="balance-history">
-          {balanceHistory.map((b, i) => (
-            <li class="balance-history__line" key={`amount-${i}`}>
+    const transaction = (
+      <div class="transaction-container">
+        {balanceHistory.map((balance, index) => (
+          <div class="transaction">
+            <div class="transaction__name">{balance.name}</div>
+            <div class="transaction__type">{balance.type}</div>
+            <div class="transaction__amount">
               $ &nbsp;
-              <div class={`amount-${negativeTransaction(b.amount)}`}>
-                {b.amount}
+              <div class={`amount-${negativeTransaction(balance.amount)}`}>
+                {balance.amount}
               </div>
-            </li>
-          ))}
-        </ul>
+            </div>
+          </div>
+        ))}
       </div>
     );
-
-    console.log(balanceHistory);
 
     return (
       <div class="account-balance">
         {header}
-        <div class="balances-container">
-          {nameColumn}
-          {typeColumn}
-          {amountColumn}
-        </div>
+        {columnNames}
+        {transaction}
       </div>
     );
   },
@@ -96,20 +75,20 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .account-balance {
-  width: 450px;
+  width: 500px;
   height: 200px;
-  border: 1px solid white;
+  border: 2px solid #434343;
+  border-radius: 15px;
   box-sizing: border-box;
+  background-color: #2b2b2b;
+  padding: 10px;
 
   .header {
     width: 100%;
     height: 15%;
-    padding-left: 5px;
-    padding-right: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid white;
     color: white;
 
     &__amount {
@@ -122,42 +101,64 @@ export default defineComponent({
     }
   }
 
-  .balances-container {
+  .column-names {
     width: 100%;
-    height: 85%;
+    height: 10%;
     display: flex;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .name-column,
-  .type-column,
-  .amount-column {
-    width: 30%;
-    height: fit-content;
-  }
-
-  .column-header {
-    width: 100%;
-    height: auto;
-    color: white;
-  }
-
-  .balance-history {
-    list-style-type: none;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-
-    &__line {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-bottom: 2px solid #434343;
+    .name {
+      width: 45%;
+      height: auto;
       color: white;
+      font-size: 10px;
+    }
+    .type {
+      width: 35%;
+      height: auto;
+      color: white;
+      font-size: 10px;
+    }
+    .amount {
+      color: white;
+      width: 20%;
+      height: auto;
+      font-size: 10px;
+    }
+  }
+
+  .transaction-container {
+    width: 100%;
+    height: 70%;
+
+    .transaction {
+      width: 100%;
+      height: auto;
       display: flex;
 
-      .amount-negative {
-        color: red;
+      &__name {
+        width: 45%;
+        color: white;
       }
-      .amount-positive {
-        color: lightgreen;
+      &__type {
+        width: 35%;
+        color: white;
+      }
+      &__amount {
+        display: flex;
+        color: white;
+        .amount-positive {
+          color: lightgreen;
+        }
+        .amount-negative {
+          color: red;
+        }
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: #434343;
       }
     }
   }

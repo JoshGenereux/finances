@@ -46,7 +46,7 @@ export default defineComponent({
 .side-bar {
   width: 285px;
   height: 100%;
-  background-color: #2c2b2b;
+  background-color: #2b2b2b;
   display: flex;
   flex-direction: column;
   justify-content: center;
