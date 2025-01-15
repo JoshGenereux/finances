@@ -57,7 +57,7 @@ export default defineComponent({
   .app-name {
     width: auto;
     height: auto;
-    color: white;
+    color: #7ad89b;
     position: absolute;
     bottom: 35px;
     font-size: 35px;

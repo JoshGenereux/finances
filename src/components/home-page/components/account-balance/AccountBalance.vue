@@ -76,7 +76,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .account-balance {
   width: 500px;
-  height: 200px;
+  height: 250px;
   border: 2px solid #434343;
   border-radius: 15px;
   box-sizing: border-box;
@@ -93,7 +93,7 @@ export default defineComponent({
 
     &__amount {
       &.positive {
-        color: lightgreen;
+        color: #7ad89b;
       }
       &.negative {
         color: red;
@@ -149,7 +149,7 @@ export default defineComponent({
         display: flex;
         color: white;
         .amount-positive {
-          color: lightgreen;
+          color: #7ad89b;
         }
         .amount-negative {
           color: red;

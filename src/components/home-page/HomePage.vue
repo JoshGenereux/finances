@@ -54,7 +54,7 @@ export default defineComponent({
 
   .access {
     position: absolute;
-    top: 400px;
+    top: 375px;
     left: 325px;
   }
 }

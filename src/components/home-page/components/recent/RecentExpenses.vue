@@ -61,7 +61,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .recent-expenses {
   width: 550px;
-  height: 200px;
+  height: 250px;
   border: 2px solid #434343;
   border-radius: 15px;
   box-sizing: border-box;
